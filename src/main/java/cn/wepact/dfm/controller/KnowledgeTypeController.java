@@ -1,6 +1,7 @@
 package cn.wepact.dfm.controller;
 
 import cn.wepact.dfm.account.client.OrgFeignClient;
+import cn.wepact.dfm.account.entity.MoreUser;
 import cn.wepact.dfm.common.model.Pagination;
 import cn.wepact.dfm.common.util.BaseRespBean;
 import cn.wepact.dfm.common.util.Constant;
@@ -10,8 +11,16 @@ import cn.wepact.dfm.service.KnowledgeTypeService;
 import cn.wepact.dfm.util.AuthorizationUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -26,21 +35,21 @@ public class KnowledgeTypeController {
 
 	@Resource
 	AuthorizationUtil authorizationUtil;
-	
+
 	@Autowired
 	private OrgFeignClient orgFeignClient;
 
 	@RequestMapping("/getUserOrgsTree")
-	public Object getUserOrgsTree() {		
-		
+	public Object getUserOrgsTree() {
+
 		Object o=null;
 		try {
 			log.info("获取用户组织信息");
 			o =orgFeignClient.getOrg2Tree();
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
-			
+
 			log.error(e.getMessage());
 		}
 		log.info("获取用户组织信息结束");
@@ -48,7 +57,7 @@ public class KnowledgeTypeController {
 	}
 
 	/**
-	   * 获取一条知识类别
+	 * 获取一条知识类别
 	 * @param id
 	 * @return
 	 */
@@ -73,7 +82,7 @@ public class KnowledgeTypeController {
 	}
 
 	/**
-	   * 删除知识类别
+	 * 删除知识类别
 	 * @param KnowledgeType
 	 * @return
 	 */
@@ -171,6 +180,7 @@ public class KnowledgeTypeController {
 
 	/**
 	 * 获取知识类别列表
+
 	 * @return
 	 */
 	@ApiOperation(value = "获取知识类别列表", notes = "")
