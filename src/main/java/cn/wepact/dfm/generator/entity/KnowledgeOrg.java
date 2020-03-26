@@ -24,10 +24,4 @@ public class KnowledgeOrg {
      */
     @Column(name = "`org_code`")
     private String orgCode;
-
-    /**
-     * 组织名
-     */
-    @Column(name = "`org_name`")
-    private String orgName;
 }

@@ -1,7 +1,6 @@
 package cn.wepact.dfm.controller;
 
 import cn.wepact.dfm.account.client.OrgFeignClient;
-import cn.wepact.dfm.account.entity.MoreUser;
 import cn.wepact.dfm.common.model.Pagination;
 import cn.wepact.dfm.common.util.BaseRespBean;
 import cn.wepact.dfm.common.util.Constant;
@@ -11,13 +10,8 @@ import cn.wepact.dfm.service.KnowledgeTypeService;
 import cn.wepact.dfm.util.AuthorizationUtil;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -174,10 +168,9 @@ public class KnowledgeTypeController {
 		log.info("保存知识类别结束" + knowledgeType.getTypeName());
 		return respBean;
 	}
-	
+
 	/**
 	 * 获取知识类别列表
-	 * @param KnowledgeType
 	 * @return
 	 */
 	@ApiOperation(value = "获取知识类别列表", notes = "")
@@ -199,4 +192,5 @@ public class KnowledgeTypeController {
 		log.info("获取知识类别列表结束");
 		return respBean;
 	}
+
 }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wepact.dfm.customize.mapper.MoreCallcenterTalkingSkillMapper">
+  <resultMap id="BaseResultMap" type="cn.wepact.dfm.generator.entity.CallcenterTalkingSkill">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="category" jdbcType="VARCHAR" property="category" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+    <result column="updator_name" jdbcType="VARCHAR" property="updatorName" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  <sql id="CallcenterTalkingSkillDTOWhere">
+		<if test="parameterMap.category != null">
+        	and  category like concat("%",#{parameterMap.category},"%")
+     	</if> 
+     	<if test="parameterMap.content != null">
+        	and  content like concat("%",#{parameterMap.content},"%")
+     	</if> 
+	</sql>
+	<select id="totalCount" resultType="java.lang.Integer">
+		select
+		count(1)
+		from t_callcenter_talking_skill
+		where 1 = 1
+		<include refid="CallcenterTalkingSkillDTOWhere" />
+		
+	</select>
+	
+	<select id="listpaging" resultMap="BaseResultMap" >
+		SELECT 
+		*
+		FROM t_callcenter_talking_skill
+		where 1=1
+		<include refid="CallcenterTalkingSkillDTOWhere" />
+		<if test="orderBy != null">
+            ORDER BY ${orderBy} ${order}
+        </if>
+        <if test="pageSize != null and pageSize != ''">
+            LIMIT #{pageSize} OFFSET #{start}
+        </if>
+	</select>
+	<delete id="delectByCategoryId">
+			DELETE FROM `t_callcenter_talking_skill` WHERE id = #{id}
+	</delete>
+</mapper>

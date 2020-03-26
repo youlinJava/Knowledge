@@ -24,10 +24,4 @@ public class KnowledgeJobposition {
      */
     @Column(name = "`job_position_code`")
     private String jobPositionCode;
-
-    /**
-     * 岗位序列名字
-     */
-    @Column(name = "`job_position_name`")
-    private String jobPositionName;
 }

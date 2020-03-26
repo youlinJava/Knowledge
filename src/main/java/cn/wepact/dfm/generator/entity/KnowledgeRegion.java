@@ -24,10 +24,4 @@ public class KnowledgeRegion {
      */
     @Column(name = "`city_code`")
     private String cityCode;
-
-    /**
-     * 城市名
-     */
-    @Column(name = "`city_name`")
-    private String cityName;
 }

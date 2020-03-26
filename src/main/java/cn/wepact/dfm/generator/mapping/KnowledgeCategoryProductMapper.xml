@@ -8,6 +8,6 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="product_id" jdbcType="VARCHAR" property="productId" />
-    <result column="prodduct_name" jdbcType="VARCHAR" property="prodductName" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
   </resultMap>
 </mapper>

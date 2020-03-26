@@ -1,9 +1,9 @@
 package cn.wepact.dfm.dto;
 
-import java.util.Date;
-
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Date;
 
 @Getter
 @Setter
@@ -13,8 +13,6 @@ public class KnowledgeTableDto {
 	 * 知识id
 	 */
 	private Integer id;
-	
-	private Integer countKonledge;
 
 	/**
 	 * 知识标题
@@ -113,8 +111,7 @@ public class KnowledgeTableDto {
     private String knowledgeCode;
 	
 	private String categoryId;
-	
-	
+
 	private String orgCode;
 	
 	private String cityCode;
@@ -130,6 +127,10 @@ public class KnowledgeTableDto {
 	
 	
 	private Date endTime;
+
+	private String knowledgeDesc;
+
+	private String knowledgeContent;
 	
 	
 }

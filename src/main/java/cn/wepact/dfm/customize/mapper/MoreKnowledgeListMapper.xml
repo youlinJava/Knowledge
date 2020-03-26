@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.wepact.dfm.customize.mapper.MoreKnowledgeListMapper">
+
+	<sql id="knowledgeTypeDTOWhere">
+		<if test="parameterMap.typeName != null">
+        	and  type_name like concat("%",#{parameterMap.typeName},"%")
+     	</if> 
+	</sql>
+
+	<sql id="knowledgeTable">
+		<if test="parameterMap.knowledgeTitle !=null and parameterMap.knowledgeTitle!=''">
+			and TAB.knowledgeTitle like concat('%',#{parameterMap.knowledgeTitle},'%')
+		</if>
+		<if test="parameterMap.typeId !=null and parameterMap.typeId!=''">
+			and TAB.typeId=#{parameterMap.typeId}
+		</if>
+		<if test="parameterMap.keyword !=null and parameterMap.keyword!=''">
+			and TAB.keyword like concat('%',#{parameterMap.knowledgeTitle},'%')
+		</if>
+		<if test="parameterMap.categoryId !=null and parameterMap.categoryId!=''">
+			and TAB.categoryId = #{parameterMap.categoryId}
+		</if>
+		<if test="parameterMap.productId !=null and parameterMap.productId!=''">
+			and TAB.productId = #{parameterMap.productId}
+		</if>
+		<if test="parameterMap.knowledgeStatus !=null and parameterMap.knowledgeStatus!=''">
+			and TAB.knowledgeStatus = #{parameterMap.knowledgeStatus}
+		</if>
+		<if test="parameterMap.startDate !=null and parameterMap.startDate!='' and parameterMap.endDate !=null and parameterMap.endDate !='' ">
+			and date(TAB.`validTime`) BETWEEN #{parameterMap.startDate} AND #{parameterMap.endDate}
+		</if>
+		<if test="parameterMap.validFlag !='' and parameterMap.validFlag ==0">
+			and TAB.`validTime` > NOW()
+		</if>
+		<if test="parameterMap.validFlag !='' and parameterMap.validFlag ==1">
+			and NOW() > TAB.`validTime`
+		</if>
+		<if test="parameterMap.knowledgeFrom !=null and parameterMap.knowledgeFrom!=''">
+			and TAB.knowledgeFrom = #{parameterMap.knowledgeFrom}
+		</if>
+	</sql>
+
+	<sql id="knowledgeTable1">
+		<if test="parameterMap.cityCode !=null and parameterMap.cityCode!=''">
+			and t2.city_code = #{parameterMap.cityCode}
+		</if>
+		<if test="parameterMap.orgCode !=null and parameterMap.orgCode!=''">
+			and t3.org_code = #{parameterMap.orgCode}
+		</if>
+		<if test="parameterMap.jobPositionCode !=null and parameterMap.jobPositionCode!=''">
+			and t4.job_position_code = #{parameterMap.jobPositionCode}
+		</if>
+		<if test="parameterMap.employeetypeId !=null and parameterMap.employeetypeId!=''">
+			and t5.employeetype_id = #{parameterMap.employeetypeId}
+		</if>
+	</sql>
+
+	<select id="list" resultType="cn.wepact.dfm.dto.knowledgeListDTO">
+		select * from
+			(SELECT
+			TMP.*
+			,(SELECT GROUP_CONCAT(org_name) FROM  t_knowledge_org t4 WHERE t4.knowledge_id = TMP.id) AS orgName
+			,(SELECT GROUP_CONCAT(city_name) FROM  t_knowledge_region t5 WHERE t5.knowledge_id = TMP.id) AS cityName
+			,(SELECT GROUP_CONCAT(job_position_name) FROM  t_knowledge_jobposition t7 WHERE t7.knowledge_id = TMP.id) AS jobPositionCode
+			,(SELECT GROUP_CONCAT(employeetype_name) FROM  t_knowledge_employeetype t8 WHERE t8.knowledge_id = TMP.id) AS employeetypeId
+			FROM
+			(SELECT
+			t1.id
+			,t1.knowledge_title as knowledgeTitle
+			,t3.category_name as categoryName
+			,t1.keyword as keyword
+			,t1.knowledge_status as knowledgeStatus
+			,t1.valid_time as validTime
+			,t1.knowledge_from as knowledgeFrom
+			,t1.create_by as createBy
+			,t1.create_time as createTime
+			,t1.update_by as updateBy
+			,t1.update_time as updateTime
+			,CASE WHEN t1.valid_time > NOW() THEN '是' ELSE '否' END AS validFlag
+			,t1.product_name AS productName
+			,t2.type_name as typeName
+			,t1.knowledge_desc as knowledgeDesc
+			,t1.knowledge_content as knowledgeContent
+			,t1.type_id as typeId
+			FROM t_knowledge t1
+			LEFT JOIN t_knowledge_type t2
+			ON t1.type_id = t2.id
+			LEFT JOIN t_knowledge_category t3
+			ON t1.category_id = t3.id
+			LEFT JOIN t_knowledge_type t6
+			ON t1.type_id = t6.id
+			where t1.del_flag != 1
+			AND t1.id IN (SELECT t1.id FROM `t_knowledge` t1
+							LEFT JOIN `t_knowledge_region` t2 ON t1.id = t2.`knowledge_id`
+							LEFT JOIN `t_knowledge_org` t3 ON t1.id = t3.`knowledge_id`
+							LEFT JOIN `t_knowledge_jobposition` t4 ON t1.`id` = t4.`knowledge_id`
+							LEFT JOIN `t_knowledge_employeetype` t5 ON t1.id = t5.knowledge_id
+							where 1=1
+							<include refid="knowledgeTable1" />
+							GROUP BY t1.id )
+							) TMP) TAB
+		where 1 = 1
+		<include refid="knowledgeTable" />
+			order by TAB.createTime
+        <if test="pageSize != null and pageSize != ''">
+            LIMIT #{pageSize} OFFSET #{start}
+        </if>
+	</select>
+
+<!--	<include refid="knowledgeTypeDTOWhere" />-->
+
+	<select id="totalCount" resultType="java.lang.Integer">
+		select count(1) from (
+		SELECT t1.id
+		,t1.knowledge_title as knowledgeTitle
+		,t2.category_name as categoryName
+		,t1.keyword as keyword
+		,t1.knowledge_status as knowledgeStatus
+		,t1.valid_time as validTime
+		,t1.knowledge_from as knowledgeFrom
+		,t1.create_by as createBy
+		,t1.create_time as createTime
+		,t1.update_by as updateBy
+		,t1.update_time as updateTime
+		,CASE WHEN t1.valid_time > NOW() THEN '是' ELSE '否' END AS validFlag
+		,t1.product_name AS productName
+		,t7.type_name as typeName
+		,t1.knowledge_desc as knowledgeDesc
+		,t1.knowledge_content as knowledgeContent
+		,t1.type_id as typeId
+		FROM `t_knowledge` t1
+		LEFT JOIN `t_knowledge_category` t2 ON t1.`category_id` = t2.`id`
+		LEFT JOIN `t_knowledge_type` t7 ON t1.`type_id` = t7.`id`
+		WHERE t1.version_num IN (SELECT MAX(version_num) FROM `t_knowledge` GROUP BY `knowledge_code`)
+		AND t1.id IN (
+		    SELECT t1.id FROM `t_knowledge` t1
+		        LEFT JOIN `t_knowledge_region` t2 ON t1.id = t2.`knowledge_id`
+				LEFT JOIN `t_knowledge_org` t3 ON t1.id = t3.`knowledge_id`
+				LEFT JOIN `t_knowledge_jobposition` t4 ON t1.`id` = t4.`knowledge_id`
+				LEFT JOIN `t_knowledge_employeetype` t5 ON t1.id = t5.knowledge_id
+			where 1=1
+			<include refid="knowledgeTable1" />
+			GROUP BY t1.id ))TAB
+		where 1=1
+		<include refid="knowledgeTable" />
+
+
+	</select>
+
+</mapper>

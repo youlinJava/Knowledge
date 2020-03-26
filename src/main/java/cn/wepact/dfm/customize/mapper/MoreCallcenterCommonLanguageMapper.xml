@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+		namespace="cn.wepact.dfm.customize.mapper.MoreCallcenterCommonLanguageMapper">
+	<resultMap id="BaseResultMap" type="cn.wepact.dfm.generator.entity.CallcenterCommonLanguage">
+		<!--
+		  WARNING - @mbg.generated
+		-->
+		<id column="id" jdbcType="INTEGER" property="id" />
+		<result column="category" jdbcType="VARCHAR" property="category" />
+		<result column="content" jdbcType="VARCHAR" property="content" />
+	</resultMap>
+
+
+	<select id="list" resultMap="BaseResultMap">
+		select * from t_callcenter_common_language where 1 = 1
+		<if test="parameterMap.category != null">
+			and  category like concat("%",#{parameterMap.category},"%")
+		</if>
+		<if test="parameterMap.content != null">
+			and  content like concat("%",#{parameterMap.content},"%")
+		</if>
+
+		<if test="orderBy != null">ORDER BY ${orderBy} ${order} </if>
+
+		<if test="pageSize != null and pageSize != ''">LIMIT #{pageSize} OFFSET #{start} </if>
+
+	</select>
+	<select id="totalCount" resultType="java.lang.Integer">
+		select
+		count(1)
+		from t_callcenter_common_language
+		where 1 = 1
+		<if test="parameterMap.category != null">
+			and  category like concat("%",#{parameterMap.category},"%")
+		</if>
+		<if test="parameterMap.content != null">
+			and  content like concat("%",#{parameterMap.content},"%")
+		</if>
+
+	</select>
+
+</mapper>

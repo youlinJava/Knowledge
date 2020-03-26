@@ -19,15 +19,11 @@
     <result column="knowledge_status" jdbcType="VARCHAR" property="knowledgeStatus" />
     <result column="knowledge_from" jdbcType="VARCHAR" property="knowledgeFrom" />
     <result column="knowledge_top" jdbcType="VARCHAR" property="knowledgeTop" />
-    <result column="reject_reason" jdbcType="VARCHAR" property="rejectReason" />
     <result column="create_by" jdbcType="VARCHAR" property="createBy" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
-    <result column="product_name" jdbcType="VARCHAR" property="productName" />
     <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
     <result column="knowledge_content" jdbcType="LONGVARCHAR" property="knowledgeContent" />
-    <result column="updator_name" jdbcType="VARBINARY" property="updatorName" />
   </resultMap>
 </mapper>

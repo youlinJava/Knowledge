@@ -1,20 +1,17 @@
 package cn.wepact.dfm.service;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import cn.wepact.dfm.common.model.Pagination;
 import cn.wepact.dfm.common.util.BaseRespBean;
 import cn.wepact.dfm.customize.mapper.MoreKnowledgeTypeMapper;
 import cn.wepact.dfm.generator.entity.KnowledgeType;
 import cn.wepact.dfm.generator.mapper.KnowledgeTypeMapper;
 import lombok.extern.slf4j.Slf4j;
-import tk.mybatis.mapper.entity.Example;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -63,8 +60,8 @@ public class KnowledgeTypeService {
 	}
 
     /**
-              * 新增知识类别
-     * @param advertising
+	 * 新增知识类别
+     * @param knowledgeType
      * @return
      */
     @Transactional
@@ -79,8 +76,8 @@ public class KnowledgeTypeService {
 	}
 
     /**
-             * 修改知识类别
-     * @param advertising
+	 * 修改知识类别
+     * @param knowledgeType
      * @return
      */
     @Transactional
@@ -94,12 +91,12 @@ public class KnowledgeTypeService {
 	}
 
 	public KnowledgeType getOneByConditions(KnowledgeType paramObj) {
+		// TODO Auto-generated method stub
 		return knowledgeTypeMapper.selectOne(paramObj);
 	}
 
-	public List<KnowledgeType> typeList() {
+
+    public List<KnowledgeType> typeList() {
 		return knowledgeTypeMapper.selectAll();
-	}
-
-
+    }
 }

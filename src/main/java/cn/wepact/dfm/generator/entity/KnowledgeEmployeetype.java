@@ -24,10 +24,4 @@ public class KnowledgeEmployeetype {
      */
     @Column(name = "`employeetype_id`")
     private String employeetypeId;
-
-    /**
-     * 员工类型名
-     */
-    @Column(name = "`employeetype_name`")
-    private String employeetypeName;
 }
