@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.wepact.dfm.customize.mapper.MoreKnowledgeCategoryMapper">
+  <resultMap id="BaseResultMap" type="cn.wepact.dfm.generator.entity.KnowledgeCategory">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="category_name" jdbcType="VARCHAR" property="categoryName" />
+    <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+    <result column="updator_name" jdbcType="VARCHAR" property="updatorName" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+  </resultMap>
+  
+  <select id = "treeList" resultType="cn.wepact.dfm.dto.TreeNode">
+  SELECT id , `category_name` AS label, `parent_id` AS pid
+	FROM `t_knowledge_category`
+  </select>
+  
+      <select id="findAllByCondition" resultType="cn.wepact.dfm.dto.KnowledgeCategoryDTO" >
+		SELECT
+		  t1.id,
+		  t1.category_name AS childrenName,
+		  tp.category_name AS parentName,
+		  (SELECT GROUP_CONCAT(p.product_name) FROM t_knowledge_category_product p WHERE p.category_id=t1.id) AS productName,
+		  (SELECT GROUP_CONCAT(o.org_name) FROM t_knowledge_category_org o WHERE o.category_id=t1.id) AS orgName
+		FROM t_knowledge_category t1  
+		 LEFT JOIN t_knowledge_category tp ON t1.`parent_id`=tp.id      
+		WHERE T1.parent_id = #{parameterMap.parentId}
+		<if test="orderBy != null">
+            ORDER BY ${orderBy} ${order}
+        </if>
+        <if test="pageSize != null and pageSize != ''">
+            LIMIT #{pageSize} OFFSET #{start}
+        </if>
+    </select>
+    
+    
+    <select id="totalCount" resultType="java.lang.Integer">
+        SELECT
+		  count(1)
+		FROM t_knowledge_category T1      
+		WHERE T1.parent_id = #{parameterMap.parentId}
+
+    </select>
+    
+    <select id="getOne" resultType="cn.wepact.dfm.dto.KnowledgeCategoryDTO">
+		SELECT
+		t1.id,
+		t1.category_name AS childrenName,
+		tp.category_name AS parentName,
+		(SELECT GROUP_CONCAT(p.product_id) FROM t_knowledge_category_product p WHERE
+		p.category_id=t1.id) AS productId,
+		(SELECT GROUP_CONCAT(p.product_name) FROM t_knowledge_category_product p WHERE
+		p.category_id=t1.id) AS productName,
+		(SELECT GROUP_CONCAT(o.org_Code) FROM t_knowledge_category_org o WHERE
+		o.category_id=t1.id) AS orgCode,
+		(SELECT GROUP_CONCAT(o.org_name) FROM t_knowledge_category_org o WHERE
+		o.category_id=t1.id) AS orgName
+		FROM t_knowledge_category t1
+		LEFT JOIN t_knowledge_category tp ON t1.`parent_id`=tp.id
+		WHERE t1.id = #{id}
+	</select>
+	
+	<select id="findInKnowledgeTable" resultType="java.lang.Integer" parameterType="Integer">
+		SELECT COUNT(1) AS cnt FROM t_knowledge WHERE category_id=#{id}
+	</select>
+</mapper>

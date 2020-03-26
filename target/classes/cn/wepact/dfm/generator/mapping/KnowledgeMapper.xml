@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wepact.dfm.generator.mapper.KnowledgeMapper">
+  <resultMap id="BaseResultMap" type="cn.wepact.dfm.generator.entity.Knowledge">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="knowledge_code" jdbcType="VARCHAR" property="knowledgeCode" />
+    <result column="version_num" jdbcType="VARCHAR" property="versionNum" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="knowledge_title" jdbcType="VARCHAR" property="knowledgeTitle" />
+    <result column="valid_time" jdbcType="TIMESTAMP" property="validTime" />
+    <result column="visible_to" jdbcType="VARCHAR" property="visibleTo" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="knowledge_desc" jdbcType="VARCHAR" property="knowledgeDesc" />
+    <result column="knowledge_status" jdbcType="VARCHAR" property="knowledgeStatus" />
+    <result column="knowledge_from" jdbcType="VARCHAR" property="knowledgeFrom" />
+    <result column="knowledge_top" jdbcType="VARCHAR" property="knowledgeTop" />
+    <result column="reject_reason" jdbcType="VARCHAR" property="rejectReason" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="knowledge_content" jdbcType="LONGVARCHAR" property="knowledgeContent" />
+    <result column="updator_name" jdbcType="VARBINARY" property="updatorName" />
+  </resultMap>
+</mapper>

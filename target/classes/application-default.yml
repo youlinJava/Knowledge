@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    username: root
+    password: 123456
+    url: jdbc:mysql://localhost:3306/knowledge?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT%2B8
+feign:
+  url: http://dev.wepact.cn:30080

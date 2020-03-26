@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.wepact.dfm.customize.mapper.MoreKnowledgeMapper">
+	<resultMap id="BaseResultMap" type="cn.wepact.dfm.generator.entity.Knowledge">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="knowledge_code" jdbcType="VARCHAR" property="knowledgeCode" />
+    <result column="version_num" jdbcType="VARCHAR" property="versionNum" />
+    <result column="category_id" jdbcType="INTEGER" property="categoryId" />
+    <result column="knowledge_title" jdbcType="VARCHAR" property="knowledgeTitle" />
+    <result column="valid_time" jdbcType="TIMESTAMP" property="validTime" />
+    <result column="visible_to" jdbcType="VARCHAR" property="visibleTo" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
+    <result column="type_id" jdbcType="INTEGER" property="typeId" />
+    <result column="keyword" jdbcType="VARCHAR" property="keyword" />
+    <result column="knowledge_desc" jdbcType="VARCHAR" property="knowledgeDesc" />
+    <result column="knowledge_status" jdbcType="VARCHAR" property="knowledgeStatus" />
+    <result column="knowledge_from" jdbcType="VARCHAR" property="knowledgeFrom" />
+    <result column="knowledge_top" jdbcType="VARCHAR" property="knowledgeTop" />
+    <result column="reject_reason" jdbcType="VARCHAR" property="rejectReason" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="knowledge_content" jdbcType="LONGVARCHAR" property="knowledgeContent" />
+    <result column="updator_name" jdbcType="VARBINARY" property="updatorName" />
+  </resultMap>
+
+	<select id="getVersionNum" resultType="String">
+		SELECT
+		CASE WHEN versionNum IS NULL THEN
+		CONCAT('V',DATE_FORMAT(NOW(),'%Y%m%d'),'001')
+		ELSE CONCAT('V',CAST(REPLACE(versionNum,'V','') AS UNSIGNED INT)+1) END
+		FROM (
+		SELECT MAX(version_num) versionNum FROM `t_knowledge`
+		WHERE `version_num` LIKE CONCAT('%',DATE_FORMAT(NOW(),'%Y%m%d'),'%')
+		)b
+	</select>
+
+
+	<resultMap id="ResultMap"
+		type="cn.wepact.dfm.dto.KnowledgeDto">
+		<!-- WARNING - @mbg.generated -->
+		<id column="id" property="id" />
+		<result column="knowledgeCode" property="knowledgeCode" />
+		<result column="categoryId" property="categoryId" />
+		<result column="cityCode" property="cityCode" />
+		<result column="cityName" property="cityName" />
+		<result column="orgCode" property="orgCode" />
+		<result column="orgName" property="orgName" />
+		<result column="knowledgeTitle" property="knowledgeTitle" />
+		<result column="knowledgeStatus" property="knowledgeStatus" />
+		<result column="rejectReason" property="rejectReason" />
+		<result column="validTime" property="validTime" />
+		<result column="visibleTo" property="visibleTo" />
+		<result column="jobposition" property="jobposition" />
+		<result column="jobpositionName" property="jobpositionName" />
+		<result column="employeetype" property="employeetype" />
+		<result column="employeetypeName" property="employeetypeName" />
+		<result column="productId" property="productId" />
+		<result column="productName" property="productName" />
+		<result column="typeId" property="typeId" />
+		<result column="typeName" property="typeName" />
+		<result column="keyWord" property="keyWord" />
+		<result column="knowledgeDesc" property="knowledgeDesc" />
+		<result column="knowledgeContent" property="knowledgeContent" />
+		<collection property="fileList"
+			ofType="cn.wepact.dfm.generator.entity.KnowledgeAttachment">
+			<result column="fileName" property="name" />
+			<result column="fileUrl" property="url" />
+		</collection>
+	</resultMap>
+
+	<select id="getOne" resultMap="ResultMap">
+		SELECT t1.id AS id,T1.`knowledge_code` AS knowledgeCode,t1.`category_id` AS
+		categoryId,t1.knowledge_title AS knowledgeTitle,t1.knowledge_status AS knowledgeStatus ,t1.reject_reason AS rejectReason,
+		(SELECT GROUP_CONCAT(r.city_code) FROM `t_knowledge_region` r WHERE
+		r.knowledge_id = t1.`id`) AS cityCode,
+		(SELECT GROUP_CONCAT(r.city_Name) FROM `t_knowledge_region` r WHERE
+		r.knowledge_id = t1.`id`) AS cityName,
+		(SELECT GROUP_CONCAT(o.org_code) FROM `t_knowledge_org` o WHERE
+		o.knowledge_id = t1.`id`) AS orgCode,
+		(SELECT GROUP_CONCAT(o.org_name) FROM `t_knowledge_org` o WHERE
+		o.knowledge_id = t1.`id`) AS orgName,
+		DATE_FORMAT(t1.`valid_time`,"%Y-%m-%d") AS validTime,t1.`visible_to`
+		AS visibleTo,t1.product_name AS productName,
+		(SELECT GROUP_CONCAT(j.`job_position_code`) FROM `t_knowledge_jobposition` j
+		WHERE j.knowledge_id = t1.`id`) AS jobposition,
+		(SELECT GROUP_CONCAT(j.`job_position_name`) FROM `t_knowledge_jobposition` j
+		WHERE j.knowledge_id = t1.`id`) AS jobpositionName,
+		(SELECT GROUP_CONCAT(e.`employeetype_id`) FROM `t_knowledge_employeetype` e
+		WHERE e.knowledge_id = t1.`id`) AS employeetype,
+		(SELECT GROUP_CONCAT(e.`employeetype_name`) FROM `t_knowledge_employeetype` e
+		WHERE e.knowledge_id = t1.`id`) AS employeetypeName,
+		t1.product_id AS productId,t1.`type_id` AS typeId,t3.`type_name` AS typeName,t1.`keyword` AS
+		keyWord,t1.`knowledge_desc` AS knowledgeDesc, t1.`knowledge_content`
+		AS knowledgeContent
+		,t2.name AS fileName,t2.`url` AS fileUrl
+		FROM `t_knowledge` t1
+		LEFT JOIN
+		`t_knowledge_attachment` t2 ON t1.`id` = t2.`knowledge_id`
+		LEFT JOIN `t_knowledge_type` t3 ON t1.`type_id` = t3.`id`
+		WHERE
+		t1.ID=#{id}
+	</select>
+
+
+
+	<select id="list"
+		resultType="cn.wepact.dfm.dto.KnowledgeTableDto">
+		SELECT t1.id AS id,
+		T1.`knowledge_code` AS knowledgeCode,
+		t1.`knowledge_title` AS KnowledgeTitle,
+		t2.`category_name` AS categoryName,
+		t1.`keyword` AS keyword,
+		(SELECT GROUP_CONCAT(org_Name) FROM t_knowledge_org t3 WHERE t3.knowledge_id
+		= t1.id) AS orgName,
+		(SELECT GROUP_CONCAT(city_name) FROM t_knowledge_region t4 WHERE
+		t4.knowledge_id = t1.id) AS cityName,
+		t7.type_name AS typeName,
+		(SELECT COUNT(1) FROM `t_knowledge` t9 WHERE t9.`knowledge_code` = t1.`knowledge_code`) AS countKonledge,
+		(SELECT GROUP_CONCAT(`job_position_name`) FROM t_knowledge_jobposition t5
+		WHERE t5.knowledge_id = t1.id) AS jobPositionName,
+		(SELECT GROUP_CONCAT(`employeetype_name`) FROM t_knowledge_employeetype t6
+		WHERE t6.knowledge_id = t1.id) AS employeetypeName,
+		t1.product_id AS productId, CASE t1.knowledge_status WHEN 0 THEN '已保存' WHEN 1
+		THEN '待审核' WHEN 2 THEN '已发布' WHEN 3 THEN '已驳回' END AS `status`,
+		DATE_FORMAT(t1.`valid_time`,"%Y-%m-%d") AS validTime , CASE WHEN
+		t1.valid_time > NOW() THEN '是' ELSE '否' END AS validFlag,
+		CASE t1.knowledge_from WHEN 0 THEN '知识库' ELSE '工单' END AS knowledgeFrom,
+		t1.knowledge_top AS knowledgeTop,
+		t1.`create_by` AS createBy , DATE_FORMAT(t1.`create_time`,"%Y-%m-%d") AS createTime
+		, t1.`update_by` AS updateBy ,
+		DATE_FORMAT(t1.`update_time`,"%Y-%m-%d") AS updateTime,
+		t1.creator_name AS creatorName,t1.updator_name AS updatorName,t1.product_name AS productName,
+		t1.reject_reason AS rejectReason
+		FROM `t_knowledge` t1
+		LEFT JOIN `t_knowledge_category` t2 ON t1.`category_id` = t2.`id`
+		LEFT JOIN `t_knowledge_type` t7 ON t1.`type_id` = t7.`id`
+		WHERE t1.version_num IN (SELECT MAX(version_num) FROM `t_knowledge`
+		WHERE del_flag !=1 AND knowledge_status != 0 
+		 GROUP BY `knowledge_code`)
+		AND t1.id IN (SELECT t1.id FROM `t_knowledge` t1 LEFT JOIN `t_knowledge_region` t2 ON t1.id = t2.`knowledge_id` 
+				LEFT JOIN `t_knowledge_org` t3 ON t1.id = t3.`knowledge_id`
+				LEFT JOIN `t_knowledge_jobposition` t4 ON t1.`id` = t4.`knowledge_id`
+				LEFT JOIN `t_knowledge_employeetype` t5 ON t1.id = t5.knowledge_id
+				where 1=1 
+				<include refid="knowledgeTable1" />
+				GROUP BY t1.id )
+		<include refid="knowledgeTable" />
+		order by t1.knowledge_top desc, t1.create_time desc 
+		<if test="pageSize != null and pageSize != ''">
+			LIMIT #{pageSize} OFFSET #{start}
+		</if>
+	</select>
+	
+	
+	<select id="totalCount" resultType="java.lang.Integer">
+		SELECT count(1)
+		FROM `t_knowledge` t1
+		LEFT JOIN `t_knowledge_category` t2 ON t1.`category_id` = t2.`id`
+		LEFT JOIN `t_knowledge_type` t7 ON t1.`type_id` = t7.`id`
+		WHERE t1.version_num IN (SELECT MAX(version_num) FROM `t_knowledge` GROUP
+		BY `knowledge_code`)
+		AND t1.id IN (SELECT t1.id FROM `t_knowledge` t1 LEFT JOIN `t_knowledge_region` t2 ON t1.id = t2.`knowledge_id` 
+				LEFT JOIN `t_knowledge_org` t3 ON t1.id = t3.`knowledge_id`
+				LEFT JOIN `t_knowledge_jobposition` t4 ON t1.`id` = t4.`knowledge_id`
+				LEFT JOIN `t_knowledge_employeetype` t5 ON t1.id = t5.knowledge_id
+				where 1=1 
+				<include refid="knowledgeTable1" />
+				GROUP BY t1.id )
+		<include refid="knowledgeTable" />
+		order by t1.knowledge_top , t1.create_time
+	</select>
+
+
+	<sql id="knowledgeTable">
+		<if test="parameterMap.knowledgeTitle !=null and parameterMap.knowledgeTitle!=''">
+			and t1.knowledge_title like concat('%',#{parameterMap.knowledgeTitle},'%')
+		</if>
+		<if test="parameterMap.typeId !=null and parameterMap.typeId!=''">
+			and t1.type_id=#{parameterMap.typeId}
+		</if>
+		<if test="parameterMap.keyword !=null and parameterMap.keyword!=''">
+			and t1.keyword like concat('%',#{parameterMap.knowledgeTitle},'%')
+		</if>
+		<if test="parameterMap.categoryId !=null and parameterMap.categoryId!=''">
+			and t1.category_id = #{parameterMap.categoryId}
+		</if>
+		<if test="parameterMap.productId !=null and parameterMap.productId!=''">
+			and t1.product_id = #{parameterMap.productId}
+		</if>
+		<if test="parameterMap.knowledgeStatus !=null and parameterMap.knowledgeStatus!=''">
+			and t1.knowledge_status = #{parameterMap.knowledgeStatus}
+		</if>
+		<if test="parameterMap.validTime !=null and parameterMap.validTime!='' and parameterMap.endTime !=null and parameterMap.endTime !='' ">
+			and t1.`valid_time` BETWEEN #{parameterMap.validTime} AND #{parameterMap.endTime}
+		</if>
+		<if test="parameterMap.validFlag !='' and parameterMap.validFlag ==0">
+			and t1.`valid_time` > NOW()
+		</if>
+		<if test="parameterMap.validFlag !='' and parameterMap.validFlag ==1">
+			and NOW() > t1.`valid_time` 
+		</if>
+		<if test="parameterMap.knowledgeFrom !=null and parameterMap.knowledgeFrom!=''">
+			and t1.knowledge_from = #{parameterMap.knowledgeFrom}
+		</if>
+	</sql>
+	
+	<sql id="knowledgeTable1">
+		<if test="parameterMap.cityCode !=null and parameterMap.cityCode!=''">
+			and t2.city_code = #{parameterMap.cityCode}
+		</if>
+		<if test="parameterMap.orgCode !=null and parameterMap.orgCode!=''">
+			and t3.org_code = #{parameterMap.orgCode}
+		</if>
+		<if test="parameterMap.jobPositionCode !=null and parameterMap.jobPositionCode!=''">
+			and t4.job_position_code = #{parameterMap.jobPositionCode}
+		</if>
+		<if test="parameterMap.employeetypeId !=null and parameterMap.employeetypeId!=''">
+			and t5.employeetype_id = #{parameterMap.employeetypeId}
+		</if>
+	</sql>
+	
+	<select id="historylist" resultType="cn.wepact.dfm.dto.KnowledgeHistory">
+		SELECT t1.id,t1.knowledge_title AS knowledgeTitle,t1.version_num AS versionNum,
+		t2.category_name AS categoryName,t1.`keyword`,t1.`updator_name` AS submitter,t1.update_time AS submitTime
+		FROM `t_knowledge`  t1 
+		LEFT JOIN `t_knowledge_category` t2 ON t1.`category_id` = t2.`id`
+		WHERE t1.`knowledge_code` = #{parameterMap.knowledgeCode}
+		and t1.knowledge_status !=0
+		<if test="pageSize != null and pageSize != ''">
+			LIMIT #{pageSize} OFFSET #{start}
+		</if>
+	</select>
+	
+	
+	<select id="historytotalCount" resultType="java.lang.Integer">
+		SELECT count(1)
+		FROM `t_knowledge`  t1 
+		LEFT JOIN `t_knowledge_category` t2 ON t1.`category_id` = t2.`id`
+		WHERE t1.`knowledge_code` = #{parameterMap.knowledgeCode}
+	</select>
+</mapper>

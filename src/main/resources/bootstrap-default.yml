@@ -1,0 +1,13 @@
+
+spring:
+  application:
+    name: callcenter-service
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        acl-token: 574a4d7c-99d8-4a01-8a03-493bc3291a4c
+        instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}
+        prefer-ip-address: true
+        health-check-url: http://${spring.cloud.client.ip-address}:${server.port}${server.servlet.context-path}/actuator/health

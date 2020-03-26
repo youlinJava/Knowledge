@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.1.4.RELEASE</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.example</groupId>
+	<artifactId>callcenter-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>CallCenter-service</name>
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+
+		<druid.version>1.1.21</druid.version>
+		<tk.mybatis.version>2.1.5</tk.mybatis.version>
+		<swagger2.version>2.9.2</swagger2.version>
+	</properties>
+
+	<dependencies>
+
+
+		<!--数据库相关 start -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>${druid.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.18</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper-spring-boot-starter</artifactId>
+			<version>${tk.mybatis.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+		</dependency>
+		<!--数据库相关 end -->
+
+		<!--测试相关 start -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!--测试相关 end -->
+
+		<!-- swagger2 Api -->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger2.version}</version>
+		</dependency>
+
+		<!--通用部分 start -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
+		<!-- <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-netflix-hystrix</artifactId> 
+			</dependency> <dependency> <groupId>org.springframework.cloud</groupId> <artifactId>spring-cloud-starter-consul-discovery</artifactId> 
+			</dependency> -->
+		<!--通用部分 end -->
+		<!-- <dependency> <groupId>cn.wepact.dfm</groupId> <artifactId>common-util</artifactId> 
+			<version>1.0.20</version> <systemPath>${project.basedir}/libs/common-util-1.0.20.jar</systemPath> 
+			<scope>system</scope> </dependency> <dependency> <groupId>cn.wepact.dfm</groupId> 
+			<artifactId>authority-management-service-api</artifactId> <version>1.0.21</version> 
+			<systemPath>${project.basedir}/libs/authority-management-service-api-1.0.21.jar</systemPath> 
+			<scope>system</scope> </dependency> <dependency> <groupId>cn.wepact.dfm</groupId> 
+			<artifactId>aorganization-management-service-api</artifactId> <version>1.0.78</version> 
+			<systemPath>${project.basedir}/libs/organization-management-service-api-1.0.78.jar</systemPath> 
+			<scope>system</scope> </dependency> -->
+
+		<dependency>
+			<groupId>cn.wepact.dfm</groupId>
+			<artifactId>common-util</artifactId>
+			<version>[1.0.1,)</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.wepact.dfm</groupId>
+			<artifactId>organization-management-service-api</artifactId>
+			<version>[1.0.0,)</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.wepact.dfm</groupId>
+			<artifactId>authority-management-service-api</artifactId>
+			<version>[1.0.0,)</version>
+		</dependency>
+
+
+
+	</dependencies>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.example.callcenter.CallCenterApplication</mainClass>
+					<includeSystemScope>true</includeSystemScope>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.6</version>
+				<configuration>
+					<configurationFile>
+						${basedir}/src/main/resources/generator/generatorConfig.xml
+					</configurationFile>
+					<overwrite>true</overwrite>
+					<verbose>true</verbose>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>8.0.18</version>
+					</dependency>
+					<dependency>
+						<groupId>tk.mybatis</groupId>
+						<artifactId>mapper</artifactId>
+						<version>4.1.5</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.yml</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.yml</include>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+					<include>**/*.zip</include>
+					<include>**/*.xlsx</include>
+					<include>**/*.json</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+	</build>
+	<repositories>
+		<repository>
+			<id>external</id>
+			<url>http://dev.wepact.cn:8083/repository/dongfeng-group/</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>external</id>
+			<url>http://dev.wepact.cn:8083/repository/dongfeng-group/</url>
+		</pluginRepository>
+	</pluginRepositories>
+	<!-- <repositories> <repository> <id>aliyun</id> <url>http://maven.aliyun.com/nexus/content/repositories/central/</url> 
+		</repository> </repositories> <pluginRepositories> <pluginRepository> <id>aliyun</id> 
+		<url>http://maven.aliyun.com/nexus/content/repositories/central/</url> </pluginRepository> 
+		</pluginRepositories> -->
+</project>

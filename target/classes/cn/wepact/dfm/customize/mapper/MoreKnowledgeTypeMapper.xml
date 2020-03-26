@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="cn.wepact.dfm.customize.mapper.MoreKnowledgeTypeMapper">
+  <resultMap id="BaseResultMap" type="cn.wepact.dfm.generator.entity.KnowledgeType">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
+    <result column="type_desc" jdbcType="VARCHAR" property="typeDesc" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+    <result column="updator_name" jdbcType="VARCHAR" property="updatorName" />
+  </resultMap>
+
+	<sql id="knowledgeTypeDTOWhere">
+		<if test="parameterMap.typeName != null">
+        	and  type_name like concat("%",#{parameterMap.typeName},"%")
+     	</if> 
+	</sql>
+	<select id="list" resultMap="BaseResultMap">
+		select
+		*
+		from t_knowledge_type
+		where 1 = 1
+		<include refid="knowledgeTypeDTOWhere" />
+		<if test="orderBy != null">
+            ORDER BY ${orderBy} ${order}
+        </if>
+        <if test="pageSize != null and pageSize != ''">
+            LIMIT #{pageSize} OFFSET #{start}
+        </if>
+		
+	</select>
+	<select id="totalCount" resultType="java.lang.Integer">
+		select
+		count(1)
+		from t_knowledge_type
+		where 1 = 1
+		<include refid="knowledgeTypeDTOWhere" />
+
+	</select>
+	
+	<select id="findInKnowledgeTable" resultType="java.lang.Integer" parameterType="Integer">
+		SELECT COUNT(1) AS cnt FROM t_knowledge WHERE type_id=#{id}
+	</select>
+</mapper>
