@@ -148,7 +148,7 @@ public class KnowledgeListService {
 		return respBean;
 	}
 
-	 * 生成知识版本号
+	 /* 生成知识版本号
 	 * @return
 			 */
 	private String getVersionNum() {

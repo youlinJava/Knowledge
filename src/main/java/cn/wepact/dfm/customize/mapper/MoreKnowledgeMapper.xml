@@ -188,7 +188,7 @@
 			and t1.type_id=#{parameterMap.typeId}
 		</if>
 		<if test="parameterMap.keyword !=null and parameterMap.keyword!=''">
-			and t1.keyword like concat('%',#{parameterMap.knowledgeTitle},'%')
+			and t1.keyword like concat('%',#{parameterMap.keyword},'%')
 		</if>
 		<if test="parameterMap.categoryId !=null and parameterMap.categoryId!=''">
 			and t1.category_id = #{parameterMap.categoryId}
@@ -202,10 +202,10 @@
 		<if test="parameterMap.validTime !=null and parameterMap.validTime!='' and parameterMap.endTime !=null and parameterMap.endTime !='' ">
 			and t1.`valid_time` BETWEEN #{parameterMap.validTime} AND #{parameterMap.endTime}
 		</if>
-		<if test="parameterMap.validFlag !='' and parameterMap.validFlag ==0">
+		<if test="parameterMap.validFlag !='' and parameterMap.validFlag ==1">
 			and t1.`valid_time` > NOW()
 		</if>
-		<if test="parameterMap.validFlag !='' and parameterMap.validFlag ==1">
+		<if test="parameterMap.validFlag !='' and parameterMap.validFlag ==2">
 			and NOW() > t1.`valid_time`
 		</if>
 		<if test="parameterMap.knowledgeFrom !=null and parameterMap.knowledgeFrom!=''">

@@ -3,12 +3,15 @@ import cn.wepact.dfm.common.model.Pagination;
 import cn.wepact.dfm.common.util.BaseRespBean;
 import cn.wepact.dfm.common.util.Constant;
 import cn.wepact.dfm.common.util.GeneralRespBean;
+import cn.wepact.dfm.dto.KnowledgeDto;
+import cn.wepact.dfm.dto.KnowledgeHistory;
+import cn.wepact.dfm.dto.KnowledgeTableDto;
 import cn.wepact.dfm.dto.knowledgeListDTO;
 
 
 import cn.wepact.dfm.generator.entity.Knowledge;
 import cn.wepact.dfm.service.KnowledgeListService;
-
+import cn.wepact.dfm.vo.KnowledgeVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -227,15 +230,12 @@ public class KnowledgeListController {
 	}
 
 	@ApiOperation(value = "修改知识状态", notes = "")
-	@PostMapping("/knowledgeListService")
-	public BaseRespBean knowledgeListService(@RequestBody Knowledge knowledge) {
+	@PostMapping("/knowledgeStatus")
+	public BaseRespBean knowledgeStatus(@RequestBody Knowledge knowledge) {
 		BaseRespBean respBean = new BaseRespBean();
-
-
-
 		try {
 			log.info("修改知识状态开始" + knowledge.getId());
-			respBean = knowledgeListService.updateknowledgeListService(knowledge);
+			respBean = knowledgeListService.updateKnowledgeStatus(knowledge);
 
 		} catch (Exception e) {
 			e.printStackTrace();

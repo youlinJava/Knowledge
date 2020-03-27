@@ -49,4 +49,12 @@
 	<select id="findInKnowledgeTable" resultType="java.lang.Integer" parameterType="Integer">
 		SELECT COUNT(1) AS cnt FROM t_knowledge WHERE type_id=#{id}
 	</select>
+
+	<select id="findByTypeName" resultMap="BaseResultMap">
+		select
+			*
+		from t_knowledge_type
+		where type_name = #{typeName}
+		LIMIT 1
+	</select>
 </mapper>

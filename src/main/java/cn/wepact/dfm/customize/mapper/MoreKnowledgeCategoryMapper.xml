@@ -57,7 +57,11 @@
 		tp.category_name AS parentName,
 		(SELECT GROUP_CONCAT(p.product_id) FROM t_knowledge_category_product p WHERE
 		p.category_id=t1.id) AS productId,
-		(SELECT GROUP_CONCAT(o.org_Code) FROM t_knowledge_category_org o WHERE
+		(SELECT GROUP_CONCAT(p.product_name) FROM t_knowledge_category_product p WHERE
+		p.category_id=t1.id) AS productName,
+		(SELECT GROUP_CONCAT(o.org_Name) FROM t_knowledge_category_org o WHERE
+		o.category_id=t1.id) AS orgName,
+		(SELECT GROUP_CONCAT(o.org_code) FROM t_knowledge_category_org o WHERE
 		o.category_id=t1.id) AS orgCode
 		FROM t_knowledge_category t1
 		LEFT JOIN t_knowledge_category tp ON t1.`parent_id`=tp.id

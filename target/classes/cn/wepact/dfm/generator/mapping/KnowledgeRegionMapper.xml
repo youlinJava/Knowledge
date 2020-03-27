@@ -8,6 +8,5 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="knowledge_id" jdbcType="INTEGER" property="knowledgeId" />
     <result column="city_code" jdbcType="VARCHAR" property="cityCode" />
-    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
   </resultMap>
 </mapper>

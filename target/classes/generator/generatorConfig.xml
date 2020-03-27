@@ -35,7 +35,7 @@
                              type="XMLMAPPER"/>
 
         <!--匹配t_开头的所有表-->
-        <table tableName="t_knowledge">
+        <table tableName="t_knowledge_type">
             <generatedKey column="id" sqlStatement="JDBC"/>
             <!--去掉实体类开头的T-->
             <domainObjectRenamingRule searchString="^T" replaceString="" />
