@@ -21,7 +21,7 @@
 
 		<druid.version>1.1.21</druid.version>
 		<tk.mybatis.version>2.1.5</tk.mybatis.version>
-		<swagger2.version>2.9.2</swagger2.version>
+		<swagger2.version>2.10.0</swagger2.version>
 	</properties>
 
 	<dependencies>
